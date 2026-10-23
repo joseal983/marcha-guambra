@@ -233,6 +233,11 @@ function buildTopTimeline() {
     $("playBtn").textContent = on ? "❚❚" : "▶";
     $("playBtn").setAttribute("aria-label", on ? "Pausar" : "Reproducir");
     document.body.classList.toggle("is-playing", on);
+    // Sincronizar audio con el estado de reproduccion
+    if (bgAudio) {
+      if (on && !isMuted) bgAudio.play().catch(() => {});
+      else if (!on)       bgAudio.pause();
+    }
   }
 
   function clearAuto() {
@@ -361,7 +366,7 @@ function buildTopTimeline() {
       bgAudio.play().catch(err => console.log("Audio bloqueado:", err));
     }
 
-    setTimeout(() => showPanel(0), 900);
+    setTimeout(() => arrive(0), 900);
   });
 
   // ---------- Inicio ----------
