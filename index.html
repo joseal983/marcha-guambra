@@ -1,0 +1,125 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Marcha de Guambra · Ruta de Ezequiel Zamora</title>
+  <meta name="description" content="Mapa animado de la Marcha de Guambra de los cadetes de la UMBV: de Fuerte Tiuna a Villa de Cura, en memoria de la rebelión campesina de Ezequiel Zamora (1846)." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,600;0,800;1,600&family=Barlow+Condensed:wght@500;600;700&family=Source+Serif+4:opsz,wght@8..60,400;8..60,600&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" crossorigin="" />
+  <link rel="stylesheet" href="css/styles.css" />
+</head>
+<body>
+  <!-- Portada -->
+  <section id="intro" class="intro">
+    <div class="intro__inner">
+      <p class="intro__kicker">Universidad Militar Bolivariana de Venezuela</p>
+      <h1 class="intro__title">Marcha de<br /><em>Guambra</em></h1>
+      <p class="intro__lema">«Tierras y hombres libres»</p>
+      <p class="intro__text">
+        Un recorrido cartográfico por la ruta que los cadetes realizan cada año desde
+        Fuerte Tiuna hasta Villa de Cura, en memoria de la rebelión campesina de
+        Ezequiel Zamora de 1846.
+      </p>
+      <div class="intro__stats">
+        <div><strong>8</strong><span>puntos</span></div>
+        <div><strong id="introKm">~115</strong><span>km</span></div>
+        <div><strong>1846</strong><span>la gesta</span></div>
+      </div>
+      <button id="startBtn" class="btn btn--primary">Iniciar la marcha ▸</button>
+      <p class="intro__credit">Mapa base © OpenStreetMap · Ruta calculada con OSRM</p>
+    </div>
+  </section>
+
+  <div id="map" aria-label="Mapa de la ruta"></div>
+
+  <!-- Cabecera -->
+<header class="topbar">
+    <!-- Bloque Izquierdo: Título y Estadísticas debajo -->
+    <div class="brand-group">
+      <div class="brand">
+        <span class="brand__star">★</span>
+        <div>
+          <strong>Marcha de Guambra</strong>
+          <small>Fuerte Tiuna → Villa de Cura</small>
+        </div>
+      </div>
+      
+      <!-- Recorrido, Restante y Punto debajo de Marcha de Guambra -->
+      <div class="stats">
+        <div class="stat"><span>Recorrido:</span> <strong id="kmDone">0,0 km</strong></div>
+        <div class="stat"><span>Restante:</span> <strong id="kmLeft">—</strong></div>
+        <div class="stat"><span>Punto:</span> <strong id="stopCount">1 / 8</strong></div>
+      </div>
+    </div>
+
+    <!-- 8 Marcadores/Íconos superiores -->
+    <div id="topStops" class="top-stops"></div>
+    <div class="basemaps" role="group" aria-label="Mapa base">
+      <button data-base="clasico" class="active">Clásico</button>
+      <button data-base="relieve">Relieve</button>
+      <button data-base="satelite">Satélite</button>
+      <button data-base="historico">Histórico</button>
+      <button data-base="topografico">Topográfico</button>
+    </div>
+
+  </header>
+  <!-- Reseña histórica -->
+  <aside id="panel" class="panel" aria-live="polite">
+    <div class="panel__head">
+      <span class="panel__num" id="pNum">01</span>
+      <div>
+        <span class="panel__tag" id="pTag"></span>
+        <h2 id="pTitle"></h2>
+        <p class="panel__place" id="pPlace"></p>
+      </div>
+    </div>
+    <p class="panel__date" id="pDate"></p>
+    <div class="panel__body" id="pBody"></div>
+    <p class="panel__dato" id="pDato"></p>
+    <div class="panel__nav">
+      <button id="prevBtn" class="btn btn--ghost" aria-label="Punto anterior">‹</button>
+      <button id="continueBtn" class="btn btn--primary">Continuar la marcha ▸</button>
+      <button id="nextBtn" class="btn btn--ghost" aria-label="Punto siguiente">›</button>
+    </div>
+    <button id="panelToggle" class="panel__toggle" aria-label="Ocultar reseña">–</button>
+  </aside>
+
+  <!-- Controles y línea de tiempo -->
+  <footer class="controls">
+    <!-- Control de sonido en el footer -->
+    <button id="btn-sound" class="ctrl ctrl--sound" title="Silenciar / Activar sonido">
+    <span class="icon">🔊</span>
+    </button>
+    <button id="playBtn" class="ctrl ctrl--play" aria-label="Reproducir">▶</button>
+    <button id="restartBtn" class="ctrl" aria-label="Reiniciar" title="Reiniciar">↺</button>
+    
+    <div class="timeline">
+      <div class="timeline__track"><div class="timeline__fill" id="fill"></div></div>
+      <ol class="timeline__stops" id="stops"></ol>
+    </div>
+    
+    <label class="speed">
+      <span>Velocidad</span>
+      <select id="speed">
+        <option value="0.5">0.5×</option>
+        <option value="1" selected>1×</option>
+        <option value="2">2×</option>
+        <option value="4">4×</option>
+      </select>
+    </label>
+    
+    <label class="auto" title="Continuar automáticamente tras cada reseña">
+      <input type="checkbox" id="autoplay" /> <span>Auto</span>
+    </label>
+  </footer>
+  <!-- Elemento de audio nativo oculto -->
+<audio id="bgAudio" src="audio/marcha_ambiente.mp3" loop preload="auto"></audio>
+  <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" crossorigin=""></script>
+  <script src="js/config.js"></script>
+  <script src="js/puntos.js"></script>
+  <script src="js/app.js"></script>
+</body>
+</html>

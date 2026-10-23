@@ -1,0 +1,14 @@
+# Entorno local — NUNCA subir al repositorio
+.env
+
+# config.js es GENERADO por el build script con la CARTO_KEY real.
+# Se sube al repo solo la versión "vacía" (con key = "").
+# El build de Netlify/Vercel genera la versión con key real en cada deploy.
+# js/config.js   ← NO lo ignores si quieres el fallback vacío en el repo
+
+# Dependencias (si algún día usas npm)
+node_modules/
+
+# Archivos del sistema operativo
+.DS_Store
+Thumbs.db
