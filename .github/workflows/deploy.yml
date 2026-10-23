@@ -28,7 +28,7 @@ jobs:
       - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
-          node-version: "20"
+          node-version: "24"
 
       # Genera js/config.js con la CARTO_KEY real desde GitHub Secrets
       - name: Inject CARTO_KEY into config.js
@@ -38,6 +38,8 @@ jobs:
 
       - name: Setup Pages
         uses: actions/configure-pages@v5
+        with:
+          enablement: true   # habilita GitHub Pages automáticamente si no está activo
 
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
