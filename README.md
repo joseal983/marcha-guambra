@@ -102,4 +102,9 @@ La **Marcha de Guambra** que realizan los cadetes de la UMBV cada año recorre l
 
 ## 📄 Licencia
 
-Mapa base © [OpenStreetMap](https://www.openstreetmap.org/copyright) contributors · Ruta calculada con [OSRM](http://project-osrm.org/)
+Este proyecto utiliza un esquema de licenciamiento abierto según el tipo de recurso:
+
+- **Código fuente:** Distribuido bajo licencia libre [GNU General Public License v3.0 (GPL-3.0)](LICENSE).
+- **Contenido, textos históricos y multimedia (fotos y audio):** Licenciados bajo [Creative Commons Atribución-CompartirIgual 4.0 Internacional (CC BY-SA 4.0)](https://creativecommons.org/licenses/by-sa/4.0/).
+- **Datos cartográficos:** Mapa base y cálculo de rutas © Colaboradores de [OpenStreetMap](https://www.openstreetmap.org/copyright) bajo licencia [ODbL](https://opendatacommons.org/licenses/odbl/). Cartografía base adicional cortesía de CARTO y Esri según sus respectivos términos de uso.
+
